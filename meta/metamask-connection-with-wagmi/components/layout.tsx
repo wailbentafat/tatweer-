@@ -21,7 +21,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     {
       id: 'tracking',
       label: 'Tracking Order',
-      path: '/tracking',
+      path: '/tracking_orders',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" fill="currentColor"/>
@@ -31,20 +31,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     {
       id: 'risk',
       label: 'Risk Alert',
-      path: '/risk',
+      path: '/risk_alerts',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L1 21H23L12 2ZM11 18H13V20H11V18ZM11 10H13V16H11V10Z" fill="currentColor"/>
+          <path d="M12 2L1 21H23L12 2ZM11 18H13V20H11V18ZM11 10H13V16H11V10Z" fill={activeMenu === 'risk' ? '#4299E1' : 'currentColor'}/>
         </svg>
       ),
     },
     {
       id: 'trucks',
       label: 'Trucks',
-      path: '/trucks',
+      path: '/trucks', 
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 8H17V4H3C1.9 4 1 4.9 1 6V17H3C3 18.66 4.34 20 6 20C7.66 20 9 18.66 9 17H15C15 18.66 16.34 20 18 20C19.66 20 21 18.66 21 17H23V12L20 8Z" fill="currentColor"/>
+          <path d="M20 8H17V4H3C1.9 4 1 4.9 1 6V17H3C3 18.66 4.34 20 6 20C7.66 20 9 18.66 9 17H15C15 18.66 16.34 20 18 20C19.66 20 21 18.66 21 17H23V12L20 8Z" fill={activeMenu === 'trucks' ? '#4299E1' : 'currentColor'}/>
         </svg>
       ),
     },
