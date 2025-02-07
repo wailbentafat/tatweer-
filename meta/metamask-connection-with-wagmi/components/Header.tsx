@@ -20,13 +20,13 @@ export const Header = () => {
       pt="4"
     >
       <Flex align="center" gap="10">
-        <Img src="/images/metamask.svg" boxSize="14" />
+        
         <Text fontSize="xl" fontWeight="bold" color="black">
-          MetaMask Connection
+          wsslni
         </Text>
       </Flex>
       <Flex align="center" gap="10">
-        <Icon as={FaUserAlt} boxSize="5" color="gray.500" />
+       
         <Text color="black" fontWeight="medium">
           {isConnected && `Ethereum Address: ${address}`}
         </Text>
