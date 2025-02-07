@@ -1,0 +1,15 @@
+tatweer-
+├── sensorservice         # Main service folder handling sensor-related logic
+│   ├── sensor           # Subfolder for sensor-specific functionality
+│   │   └── sensor.ts    # Script for generating and publishing sensor data to Redis
+│   ├── index.ts         # Likely the main entry point for the service
+│   ├── package-lock.json # Lock file for managing npm dependencies
+│   ├── package.json     # Project metadata and dependencies
+│   ├── README.md        # Documentation about the project
+│   ├── tsconfig.json    # TypeScript configuration file
+│   └── .gitignore       # Defines files to ignore in Git
+├── bun.lock             # Lock file for Bun package manager
+├── package-lock.json    # Lock file for npm package manager (potential duplication with bun.lock)
+├── package.json         # Root-level package metadata
+├── .gitattributes       # Defines file handling behavior in Git (e.g., line endings)
+└── .gitignore           # Root-level ignore file for Git

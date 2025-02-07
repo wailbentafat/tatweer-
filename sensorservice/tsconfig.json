@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "lib": ["ESNext"],
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "target": "ES2020",
     "moduleDetection": "force",
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "composite": true,
+    "esModuleInterop": true,
     "strict": true,
     "downlevelIteration": true,
     "skipLibCheck": true,
