@@ -7,5 +7,10 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.4.0",
+    "express": "^4.21.2",
+    "redis": "^4.7.0"
   }
 }
