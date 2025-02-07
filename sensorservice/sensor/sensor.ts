@@ -1,34 +1,34 @@
-import { createClient } from "redis";
 import { faker } from "@faker-js/faker";
 
-// Création du client Redis
-const redisClient = createClient({
-  url: "redis://localhost:6379",
-});
-
-redisClient.on("error", (err) => console.error("Redis error:", err));
-
-// Connexion au serveur Redis
-await redisClient.connect();
-
-// Fonction pour générer des données de capteur
-function generateSensorData() {
-  return {
-    sensorId: faker.string.uuid(),
-    temperature: faker.number.float({ min: -10, max: 50, fractionDigits: 0.1 }),
-    timestamp: new Date().toISOString(),
-  };
+// Simulates temperature readings
+function generateTemperature(): number {
+  return faker.number.float({ min: 5, max: 30, fractionDigits: 1 });
 }
 
-// Publier des événements toutes les 3 secondes
-setInterval(async () => {
-  const sensorData = generateSensorData();
-  try {
-    await redisClient.publish("sensor-events", JSON.stringify(sensorData));
-    console.log("Événement publié:", sensorData);
-  } catch (err) {
-    console.error("Erreur lors de l'envoi à Redis :", err);
-  }
-}, 3000);
+// Function to detect critical scenarios
+function detectAnomalies(tempHistory: number[]): void {
+  if (tempHistory.length < 2) return; // Need at least 2 readings to detect changes
 
-// Ne pas fermer la connexion Redis immédiatement !
+  const prevTemp = tempHistory[tempHistory.length - 2];
+  const currTemp = tempHistory[tempHistory.length - 1];
+
+  if (currTemp >= 24) {
+    console.log("⚠️ Warning: Temperature is approaching the danger zone! Current:", currTemp, "°C");
+  }
+
+  if (prevTemp >= 24 && currTemp <= 10) {
+    console.log("🚨 Critical: Sudden freeze detected! Possible damage.");
+    console.log("📌 Data Log: Prev Temp =", prevTemp, "°C → Current Temp =", currTemp, "°C");
+  }
+}
+
+// Simulate real-time data stream
+const tempHistory: number[] = [];
+
+setInterval(() => {
+  const temp = generateTemperature();
+  tempHistory.push(temp);
+
+  console.log("🌡️ Temperature Reading:", temp, "°C");
+  detectAnomalies(tempHistory);
+}, 3000);

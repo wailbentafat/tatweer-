@@ -7,5 +7,9 @@
   "dependencies": {
     "@faker-js/faker": "^9.4.0",
     "redis": "^4.7.0"
-  }
+  },
+    "scripts": {
+      "test": "bun test",
+      "test:temperature": "bun run test/test-runner.ts"
+    }
 }
