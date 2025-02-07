@@ -1,7 +1,8 @@
 # Node & Bun dependencies
 node_modules/
 bun.lockb
-
+package-lock.json
+package.json
 # TypeScript build output
 dist/
 out/
@@ -39,6 +40,3 @@ Thumbs.db
 
 # Git
 .git/
-understand.txt
-.gitignore
-.gitattributes
