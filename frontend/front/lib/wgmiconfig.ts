@@ -11,6 +11,6 @@ const { chains, publicClient } = configureChains(
 
 export const wagmiConfig = createConfig({
   autoConnect: true,  
-  connectors: [injected()],  ]
+  connectors: [injected()],  
   publicClient,
 });
