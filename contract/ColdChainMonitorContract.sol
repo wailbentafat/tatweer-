@@ -27,18 +27,18 @@ contract ColdChainMonitor {
         emit ContractDeployed(contractId, truckNumber, temperature);
     }
 
-    //L’IA met à jour le statut si la température dépasse la norme
+    
     function markAsBroken() external {
         isBroken = true;
         emit ContractBroken(contractId);
     }
 
-    //Vérifier la conformité
+ 
     function checkCompliance() external view returns (bool) {
         return !isBroken;
     }
 
-    //Récupérer les données
+  
     function getShipmentData()
         external
         view
