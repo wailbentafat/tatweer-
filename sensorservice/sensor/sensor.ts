@@ -15,7 +15,7 @@ await redisClient.connect();
 function generateSensorData() {
   return {
     sensorId: faker.string.uuid(),
-    temperature: faker.number.float({ min: -10, max: 50, precision: 0.1 }),
+    temperature: faker.number.float({ min: -10, max: 50, fractionDigits: 0.1 }),
     timestamp: new Date().toISOString(),
   };
 }
