@@ -1,22 +1,13 @@
-import { createClient } from "redis";
+import TruckTracker from "./sensor/sensor.ts";
 
-const redisClient = createClient({
-  url: "redis://localhost:6379" // Ensure Redis is running at this address
-});
+// Define destination (Example: Algiers)
+const destination = { lat: 36.75, lon: 3.06 };
+const tracker = new TruckTracker(destination);
 
-redisClient.on("error", (err) => console.error("Redis error:", err));
-
-(async () => {
-  try {
-    await redisClient.connect();
-    console.log("🚀 Redis connected!");
-
-    // Test Redis: Set and Get a value
-    await redisClient.set("test_key", "Hello, Redis!");
-    const value = await redisClient.get("test_key");
-    console.log("✅ Stored value in Redis:", value);
-
-  } catch (error) {
-    console.error("❌ Redis connection failed:", error);
-  }
-})();
+// Run tracking every 3 seconds
+setInterval(() => {
+    const status = tracker.track();
+    if (status) {
+        console.log("🚨 An issue was detected, check the logs.");
+    }
+}, 3000);
