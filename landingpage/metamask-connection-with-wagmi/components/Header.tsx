@@ -1,10 +1,7 @@
 import React from "react";
 import { FaUserAlt } from "react-icons/fa";
-import { Button, Flex, Img, Text, Icon } from "@chakra-ui/react";
-import {
-  useAccount,
-  useDisconnect,
-} from "wagmi";
+import { Button, Flex, Text, Icon } from "@chakra-ui/react";
+import { useAccount, useDisconnect } from "wagmi";
 
 export const Header = () => {
   const { address, isConnected } = useAccount();
@@ -12,45 +9,41 @@ export const Header = () => {
 
   return (
     <Flex
+      bg="linear-gradient(to-r, #f6f8ff, #C39BD3)"
       h="max-content"
       w="full"
       justify="space-between"
       align="center"
-      px="24"
-      pt="4"
+      px="8"
+      py="4"
+      shadow="md"
     >
-      <Flex align="center" gap="10">
-        
-        <Text fontSize="xl" fontWeight="bold" color="black">
-          wsslni
-        </Text>
-      </Flex>
-      <Flex align="center" gap="10">
-       
-        <Text color="black" fontWeight="medium">
-          {isConnected && `Ethereum Address: ${address}`}
-        </Text>
+      <Text fontSize="2xl" fontWeight="bold">
+        Raqeeb
+      </Text>
+      <Flex align="center" gap="6">
+      
+        {isConnected && (
+          <Text color="black" fontWeight="medium" mr="4">
+            Ethereum Address: {address}
+          </Text>
+        )}
         <Button
-          _hover={{ opacity: "80%" }}
+          _hover={{ opacity: "0.8" }}
           _focus={{
             border: "0.125rem solid white",
             color: "white",
             bgColor: "transparent",
           }}
           _active={{ color: "black" }}
-          _focusVisible={{}}
-          _focusWithin={{}}
           borderRadius="base"
           bg="black"
-          border="0.125rem solid"
-          borderColor="transparent"
           color="white"
-          px="9"
-          h="2.75rem"
+          px="6"
+          py="2"
           fontSize="md"
           fontWeight="normal"
-          textDecoration="none"
-          onClick={() => disconnect()}
+          onClick={disconnect}
           isDisabled={!isConnected}
         >
           Disconnect
@@ -61,3 +54,4 @@ export const Header = () => {
 };
 
 export default Header;
+
