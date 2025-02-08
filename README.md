@@ -60,28 +60,6 @@ import keras
 keras.models.load_model('/content/drive/MyDrive/model.h5')
 ```
 
-## 📂 Code Structure
-
-🔹 **`ColdChainDataLoader`**: Loads and prepares features.  
-🔹 **`preprocess_data`**: Scales features.  
-🔹 **`create_sequences`**: Prepares data for LSTM.  
-🔹 **`build_model`**: Constructs the LSTM-based neural network.  
-🔹 **`train_model`**: Balances data and trains the model.  
-🔹 **`detect_anomalies`**: Predicts anomalies using the trained model.  
-🔹 **`plot_anomalies`**: Visualizes anomalies in temperature and humidity.  
-🔹 **`main()`**: Orchestrates the workflow.  
-
-## 📊 Dataset Format
-
-Your dataset should be in CSV format and structured as follows:
-
-```
-datetime,temperature_C,humidity_%,deviation_flag
-2023-01-01 00:00:00,5.4,72,0
-2023-01-01 01:00:00,5.6,74,1
-...
-```
-
 ## 🎯 Results
 
 - The trained model **detects anomalies** in temperature and humidity fluctuations.  
