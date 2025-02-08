@@ -53,6 +53,9 @@ Raqeeb is built using three different backend technologies:
 - Redis
 - Foundry
 - Ethereum.js
+- wagmi
+- next
+- metamask
 
 ### Installation Steps
 
