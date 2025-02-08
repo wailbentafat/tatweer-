@@ -5,7 +5,14 @@ import { useRouter } from "next/router";
 import { ChakraProvider } from "@chakra-ui/react";
 import { useAccount, useConnect } from "wagmi";
 import { Button, Flex, Img, Text } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
 import { Header } from "@/components";
+import { motion, AnimationProps } from "framer-motion";
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 export default function Home() {
   const router = useRouter();
@@ -15,59 +22,105 @@ export default function Home() {
 
   useEffect(() => {
     if (isConnected) {
-      router.push("/home"); 
+      router.push("/home");
     }
   }, [isConnected, router]);
 
   return (
     <ChakraProvider>
       <Head>
-        <title>wsslni</title>
-      
+        <title>Raqeeb</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Flex bg="white" h="100vh" direction="column" justify="center">
+      <Flex 
+        bg="linear-gradient(135deg, #f6f8ff 0%, #ffffff 100%)"
+        h="100vh" 
+        direction="column" 
+        justify="center"
+        position="relative"
+        overflow="hidden"
+      >
         <Flex align="center" justify="space-around">
           <Flex w="full" top="0" position="absolute">
             <Header />
           </Flex>
-          <Flex maxW="50rem" direction="column" px="24">
+          <Flex 
+            as={motion.div}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 } as any}
+            maxW="50rem" 
+            direction="column" 
+            px="24"
+          >
             <Text
-              fontSize="5xl"
+              fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
               color="purple.800"
               fontWeight="bold"
-              lineHeight="3.328rem"
+              lineHeight="1.2"
+              as={motion.h1}
+              animation={`${fadeIn} 1s ease-out`}
             >
-             ai platform for focusiing on supply chain with blockchain
+              Revolutionizing Supply Chain with Blockchain & AI
             </Text>
-            <Text fontSize="md" color="purple.600" lineHeight="1.21rem" py="10">
-             platform is succed platform 
+            <Text 
+              fontSize="xl"
+              color="purple.600"
+              lineHeight="1.6"
+              py="10"
+              as={motion.p}
+              animation={`${fadeIn} 1s ease-out 0.3s`}
+            >
+              Raqeeb is an innovative platform that combines the power of artificial intelligence 
+              and blockchain technology to bring transparency, efficiency, and trust to supply chain management.
             </Text>
             {connectors.map((connector, index) => (
               <Button
                 key={+index}
-                bgGradient="linear(to-r, purple.200, purple.600)"
+                bgGradient="linear(to-r, purple.400, purple.800)"
                 w="full"
-                _hover={{ bgGradient: "linear(to-r, purple.300, purple.700)" }}
-                _active={{ bgGradient: "linear(to-r, purple.400, purple.800)" }}
+                _hover={{ 
+                  bgGradient: "linear(to-r, purple.500, purple.900)",
+                  transform: "translateY(-2px)",
+                  boxShadow: "xl"
+                }}
+                _active={{ 
+                  bgGradient: "linear(to-r, purple.600, purple.900)",
+                  transform: "translateY(0)"
+                }}
                 _focus={{ boxShadow: "outline" }}
-                h="2.75rem"
+                h="3.5rem"
                 position="relative"
-                borderRadius="base"
+                borderRadius="lg"
                 color="white"
-                fontWeight="medium"
-                fontSize="md"
+                fontWeight="bold"
+                fontSize="lg"
                 px="12"
                 onClick={() => connect({ connector })}
                 isDisabled={isConnected}
+                transition="all 0.3s ease"
+                as={motion.button}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                {isConnected ? "Already connected" : "Connect to wsslni"}
+                {isConnected ? "Already connected" : "Connect to Raqeeb"}
               </Button>
             ))}
           </Flex>
-          <Flex minW="30rem">
-           
+          <Flex 
+            minW="30rem"
+            as={motion.div}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 } as any}
+          >
+            <Img 
+              src="/supply-chain-illustration.svg" 
+              alt="Supply Chain Illustration"
+              w="full"
+              h="auto"
+            />
           </Flex>
         </Flex>
       </Flex>

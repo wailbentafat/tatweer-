@@ -1,23 +1,15 @@
 const hre = require("hardhat");
 
 async function main() {
-  const ColdChainMonitor = await hre.ethers.getContractFactory("ColdChainMonitor");
+  const Upload = await hre.ethers.getContractFactory("ColdChainMonitor");
+  const upload = await Upload.deploy();
 
-  
-  const contractId = 1; 
-  const truckNumber = 101;
-  const temperature = 5; 
+  await upload.deployed();
 
-  const coldChainMonitor = await ColdChainMonitor.deploy(contractId, truckNumber, temperature);
-
-  await coldChainMonitor.deployed();
-
-  console.log("ColdChainMonitor deployed to:", coldChainMonitor.address);
+  // console.log("Library deployed to:", upload.address);
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
