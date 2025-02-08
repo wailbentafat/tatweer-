@@ -1,66 +1,145 @@
-## Foundry
+# Raqeeb
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Overview
 
-Foundry consists of:
+Raqeeb is a backend system that integrates IoT sensor data, smart contracts, and a dashboard for logistics management. It consists of three servers, each handling a distinct aspect of the system.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Architecture
 
-## Documentation
+Raqeeb is built using three different backend technologies:
 
-https://book.getfoundry.sh/
+1. **Sensor Server (TypeScript)**
 
-## Usage
+   - Handles sensor data from trucks.
+   - Provides a `GET` request to retrieve the truck destination.
+   - Sends real-time GPS data via WebSocket.
+   - Calls the Django server to determine the destination.
+   - Logs all events in Redis for event-driven architecture.
 
-### Build
+2. **Contract Server (Express + Ethereum.js)**
 
-```shell
-$ forge build
-```
+   - Manages Ethereum smart contracts.
+   - Handles three main events:
+     - `route_end`: Signals the completion of a shipment.
+     - `alert`: Sends real-time WebSocket alerts.
+     - `ok`: Verifies shipment completion and creates a smart contract.
+   - Uses Solidity for smart contract development.
+   - Utilizes Foundry for running and deploying contracts locally.
+   - Provides two main API routes:
+     - `GET /route` - Retrieves the latest shipment data.
+     - `WS /alert` - Provides real-time WebSocket alerts.
 
-### Test
+3. **Dashboard Server (Django)**
 
-```shell
-$ forge test
-```
+   - Provides CRUD operations (`GET`, `POST`, `PUT`) for trucks and packages.
+   - Serves as the central dashboard for logistics management.
+   - Implements authentication with MetaMask using Wagmi.
 
-### Format
+## Tech Stack
 
-```shell
-$ forge fmt
-```
+- **TypeScript** (Sensor Server)
+- **Express + Ethereum.js + Solidity** (Contract Server)
+- **Django** (Dashboard Server)
+- **Redis** (Event-driven architecture)
+- **Foundry** (Smart contract deployment and testing)
+- **Wagmi** (MetaMask authentication and Ethereum interactions)
 
-### Gas Snapshots
+## Setup and Installation
 
-```shell
-$ forge snapshot
-```
+### Prerequisites
 
-### Anvil
+- Node.js
+- Python + Django
+- Redis
+- Foundry
+- Ethereum.js
 
-```shell
-$ anvil
-```
+### Installation Steps
 
-### Deploy
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/wailbentafat/Tatweer-
+   cd raqeeb
+   ```
+2. Install dependencies for each server:
+   - **Sensor Server** (TypeScript)
+     ```sh
+     cd sensor-server
+     npm install
+     ```
+   - **Contract Server** (Express + Ethereum.js)
+     ```sh
+     cd contract-server
+     npm install
+     ```
+   - **Dashboard Server** (Django)
+     ```sh
+     cd dashboard-server
+     run django
+     ```
+3. Start Redis:
+   ```sh
+   redis-server
+   ```
+4. Start each server:
+   - **Sensor Server:**
+     ```sh
+     suive bun run protocole
+     ```
+   - **Contract Server:**
+     ```sh
+     suivre bun run protocole 
+     ```
+   - **Dashboard Server:**
+     ```sh
+     python manage.py runserver
+     ```
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+## API Endpoints
 
-### Cast
+### Sensor Server (TypeScript)
 
-```shell
-$ cast <subcommand>
-```
+- `GET /destination` - Retrieves truck destination.
+- `WS /ws` - WebSocket route that provides real-time GPS data.
 
-### Help
+### Contract Server (Express + Ethereum.js)
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- `GET /route` - Retrieves latest shipment data.
+- `WS /alert` - Real-time WebSocket alerts.
+
+### Dashboard Server (Django)
+
+- `crud /truck` - Retrieves truck data.
+.
+- `crud /package` - Adds a package.
+ ### Authentification and landingpage 
+ -build with wagmi and next and metamask 
+
+## Smart Contract
+
+- Written in Solidity.
+- Deployed using Foundry.
+- Handles shipment validation and verification.
+
+## Event-Driven Architecture
+
+- Redis is used for logging events.
+- WebSockets are used for real-time tracking and alerts.
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch:
+   ```sh
+   git checkout -b feature-branch
+   ```
+3. Commit changes:
+   ```sh
+   git commit -m "Your message"
+   ```
+4. Push and create a pull request.
+
+## License
+
+MIT License
+
