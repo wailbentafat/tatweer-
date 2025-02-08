@@ -146,3 +146,4 @@ Raqeeb is built using three different backend technologies:
 
 MIT License
 
+![alt text](image.png)
