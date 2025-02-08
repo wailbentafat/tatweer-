@@ -1,4 +1,4 @@
-import { generateGpsData } from "../sensor/gps";
+import { generateGpsData } from "../sensor/gps.js";
 
 export const gpsWs = async (socket: WebSocket) => {
     const sensorData = generateGpsData();

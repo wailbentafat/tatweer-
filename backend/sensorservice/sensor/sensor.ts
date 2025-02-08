@@ -1,4 +1,8 @@
 import { faker } from "@faker-js/faker";
+import * as redis from "redis";
+
+const redisClient = redis.createClient();
+redisClient.connect().catch(console.error); 
 
 class TruckTracker {
     private temperatureHistory: number[] = [];
@@ -8,6 +12,7 @@ class TruckTracker {
     private destination: { lat: number; lon: number };
     private eta: number;
     private lastLoggedTime: number;
+    private truckId: string;
 
     constructor(destination: { lat: number; lon: number }) {
         this.latitude = faker.location.latitude({ min: 36.6, max: 36.9 });
@@ -16,14 +21,13 @@ class TruckTracker {
         this.destination = destination;
         this.eta = this.calculateETA();
         this.lastLoggedTime = Date.now();
+        this.truckId = faker.string.uuid();
     }
 
-    // Generates temperature readings
     private generateTemperature(): number {
         return faker.number.float({ min: 5, max: 30, fractionDigits: 1 });
     }
 
-    // Detects temperature anomalies and returns a boolean if an issue is found
     private detectTemperatureAnomalies(): boolean {
         if (this.temperatureHistory.length < 2) return false;
 
@@ -44,7 +48,6 @@ class TruckTracker {
         return false;
     }
 
-    // Calculates the distance between two points
     private getDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
         const R = 6371;
         const dLat = (lat2 - lat1) * (Math.PI / 180);
@@ -56,23 +59,21 @@ class TruckTracker {
         return R * c;
     }
 
-    // Estimates ETA and updates it
     private calculateETA(): number {
         const distance = this.getDistance(this.latitude, this.longitude, this.destination.lat, this.destination.lon);
         return Math.round(distance / this.speed * 60);
     }
 
-    // Updates the truck's location
     private updateLocation(): void {
         this.latitude += (Math.random() - 0.5) * 0.02;
         this.longitude += (Math.random() - 0.5) * 0.02;
         this.eta = this.calculateETA();
     }
 
-    // Logs the status and checks alerts
     private checkAlerts(): boolean {
         const now = Date.now();
         if (now - this.lastLoggedTime >= 5000) {
+            console.log(`[🚛 Truck ID] ${this.truckId}`);
             console.log(`[📍 GPS] Lat: ${this.latitude.toFixed(4)}, Lon: ${this.longitude.toFixed(4)}`);
             console.log(`[🔥 Temp] ${this.temperatureHistory[this.temperatureHistory.length - 1].toFixed(2)}°C`);
             console.log(`[⏳ ETA] ${this.eta} min`);
@@ -92,7 +93,6 @@ class TruckTracker {
         return false;
     }
 
-    // Entry point: Starts tracking and returns a boolean when completed
     public track(): boolean {
         console.log("🚛 Truck tracking started...");
         const temp = this.generateTemperature();
@@ -104,6 +104,39 @@ class TruckTracker {
 
         return anomalyDetected || alertTriggered;
     }
+
+    public getTruckId(): string {
+        return this.truckId;
+    }
+    
 }
+
+
+async function sendEvent(truck: TruckTracker) {
+    try {
+        const eventData = {
+            truckId: truck.getTruckId(),
+            status: truck.track() ? "ALERT" : "OK"
+        };
+
+        await redisClient.publish("truck-event", JSON.stringify(eventData));
+        console.log(`🚛 Redis Event Sent: ${eventData.status} for Truck ${eventData.truckId}`);
+    } catch (error) {
+        console.error("❌ Redis Error:", error);
+    }
+}
+
+
+async function main() {
+    const destination = { lat: 37.0, lon: 3.1 };
+    const truck = new TruckTracker(destination);
+
+    setInterval(async () => {
+        await sendEvent(truck);
+    }, 5000); 
+}
+
+
+main();
 
 export default TruckTracker;
