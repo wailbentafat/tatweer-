@@ -4,7 +4,7 @@ import { setupSubscriber } from "./handler/redis";
 import web3op from "./handler/web3op";
 
 const app = express();
-const PORT = 3000;
+const PORT = 3003;
 
 app.use(cors());
 app.use(express.json());
