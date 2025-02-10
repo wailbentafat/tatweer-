@@ -1,11 +1,23 @@
 import React from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { Button, Flex, Text, Icon } from "@chakra-ui/react";
-import { useAccount, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 export const Header = () => {
   const { address, isConnected } = useAccount();
+  const { connect } = useConnect({
+    connector: new MetaMaskConnector(),
+  });
   const { disconnect } = useDisconnect();
+
+  const handleConnection = () => {
+    if (isConnected) {
+      disconnect();
+    } else {
+      connect();
+    }
+  };
 
   return (
     <Flex
@@ -22,7 +34,6 @@ export const Header = () => {
         Raqeeb
       </Text>
       <Flex align="center" gap="6">
-      
         {isConnected && (
           <Text color="black" fontWeight="medium" mr="4">
             Ethereum Address: {address}
@@ -43,10 +54,9 @@ export const Header = () => {
           py="2"
           fontSize="md"
           fontWeight="normal"
-          onClick={disconnect}
-          isDisabled={!isConnected}
+          onClick={handleConnection}
         >
-          Disconnect
+          {isConnected ? "Disconnect" : "Connect"}
         </Button>
       </Flex>
     </Flex>
@@ -54,4 +64,5 @@ export const Header = () => {
 };
 
 export default Header;
+
 

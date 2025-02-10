@@ -20,11 +20,6 @@ export default function Home() {
     useConnect();
   const { isConnected } = useAccount();
 
-  useEffect(() => {
-    if (isConnected) {
-      router.push("/home");
-    }
-  }, [isConnected, router]);
 
   return (
     <ChakraProvider>
